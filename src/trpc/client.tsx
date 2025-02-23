@@ -5,6 +5,7 @@ import { QueryClientProvider } from '@tanstack/react-query';
 import { httpBatchLink } from '@trpc/client';
 import { createTRPCReact } from '@trpc/react-query';
 import { useState } from 'react';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { makeQueryClient } from './query-client';
 import type { AppRouter } from './routers/_app';
 import superjson from 'superjson';
@@ -42,6 +43,11 @@ export function TRPCProvider(
         httpBatchLink({
           transformer: superjson,
           url: getUrl(),
+          async headers() {
+            const headers = new Headers();
+            headers.set("x-trpc-source", "nextjs-react");
+            return headers;
+          }
         }),
       ],
     }),
@@ -50,6 +56,7 @@ export function TRPCProvider(
     <trpc.Provider client={trpcClient} queryClient={queryClient}>
       <QueryClientProvider client={queryClient}>
         {props.children}
+        <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </trpc.Provider>
   );
