@@ -1,6 +1,6 @@
 "use client"
 
-import { UserCircleIcon } from 'lucide-react'
+import { ClapperboardIcon, UserCircleIcon } from 'lucide-react'
 import {
   SignInButton,
   SignedIn,
@@ -14,7 +14,22 @@ export const AuthButton = () => {
   return (
     <>
       <SignedIn>
-        <UserButton />
+        {/* <Button asChild variant="secondary">
+          <Link href="/studio">
+            <ClapperboardIcon className="size-4" />
+            Studio
+          </Link>
+        </Button> */}
+        <UserButton>
+          <UserButton.MenuItems>
+            <UserButton.Link
+              label="Studio"
+              href="/studio"
+              labelIcon={<ClapperboardIcon className="size-4" />}
+            />
+            <UserButton.Action label="manageAccount" />
+          </UserButton.MenuItems>
+        </UserButton>
       </SignedIn>
       <SignedOut>
         <SignInButton mode="modal">
